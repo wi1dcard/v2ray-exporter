@@ -16,18 +16,16 @@ import (
 
 type Exporter struct {
 	sync.Mutex
-	v2rayEndpoint string
-	registry      *prometheus.Registry
-
-	totalScrapes prometheus.Counter
-
+	endpoint           string
+	registry           *prometheus.Registry
+	totalScrapes       prometheus.Counter
 	metricDescriptions map[string]*prometheus.Desc
 }
 
-func NewExporter(v2rayEndpoint string) *Exporter {
+func NewExporter(endpoint string) *Exporter {
 	e := Exporter{
-		v2rayEndpoint: v2rayEndpoint,
-		registry:      prometheus.NewRegistry(),
+		endpoint: endpoint,
+		registry: prometheus.NewRegistry(),
 
 		totalScrapes: prometheus.NewCounter(prometheus.CounterOpts{
 			Namespace: "v2ray",
@@ -76,14 +74,18 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 }
 
 func (e *Exporter) Describe(ch chan<- *prometheus.Desc) {
-	prometheus.DescribeByCollect(e, ch)
+	for _, desc := range e.metricDescriptions {
+		ch <- desc
+	}
+
+	ch <- e.totalScrapes.Desc()
 }
 
 func (e *Exporter) scrapeV2Ray(ch chan<- prometheus.Metric) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	conn, err := grpc.DialContext(ctx, e.v2rayEndpoint, grpc.WithInsecure(), grpc.WithBlock())
+	conn, err := grpc.DialContext(ctx, e.endpoint, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		return fmt.Errorf("failed to dial: %w", err)
 	}
