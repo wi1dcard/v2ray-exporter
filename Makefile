@@ -1,7 +1,7 @@
-LAST_TAG      = $(shell git describe --tags --abbrev=0 HEAD)
+LAST_TAG      = $(shell git describe --tags --abbrev=0 HEAD^)
 COMMIT        = $(shell git rev-parse --short HEAD)
 FULL_COMMIT   = $(shell git rev-parse HEAD)
-RELEASE_NOTES = $(shell git log ${LAST_TAG}..HEAD --oneline --decorate)
+RELEASE_NOTES = `git log ${LAST_TAG}..HEAD --oneline --decorate`
 DATE          = $(shell date +%Y-%m-%d)
 DOCKER_REPO   = wi1dcard/v2ray-exporter
 
