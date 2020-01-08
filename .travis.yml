@@ -1,0 +1,23 @@
+language: go
+
+go:
+  - "1.13"
+services:
+  - docker
+env:
+  global:
+    - TAG=$TRAVIS_BRANCH
+
+if: branch = master OR tag IS present
+
+before_script:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - make before_build
+
+script:
+  - make docker_build && make docker_push && make docker_manifest
+
+notifications:
+  email:
+    on_success: never # default: change
+    on_failure: always # default: always
