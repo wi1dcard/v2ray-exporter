@@ -22,7 +22,7 @@ build: check_tag
 	    -osarch "linux/amd64 linux/arm64 linux/arm darwin/amd64 windows/amd64" \
 	    -ldflags "-X main.buildCommit=${COMMIT} \
 	              -X main.buildDate=${DATE} \
-	              -X main.buildVersion=${LAST_TAG}" \
+	              -X main.buildVersion=${TAG}" \
 	    ./...
 
 release: build
