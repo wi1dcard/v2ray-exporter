@@ -40,11 +40,11 @@ func NewExporter(endpoint string) *Exporter {
 		txt  string
 		lbls []string
 	}{
-		"up":                      {txt: "Indicate scrape succeeded or not"},
-		"scrape_duration_seconds": {txt: "Scrape duration in seconds"},
-		"uptime":                  {txt: "V2Ray uptime in seconds"},
-		"traffic_uplink":          {txt: "Number of TX bytes", lbls: []string{"dimension", "target"}},
-		"traffic_downlink":        {txt: "Number of RX bytes", lbls: []string{"dimension", "target"}},
+		"up":                           {txt: "Indicate scrape succeeded or not"},
+		"scrape_duration_seconds":      {txt: "Scrape duration in seconds"},
+		"uptime_seconds":               {txt: "V2Ray uptime in seconds"},
+		"traffic_uplink_bytes_total":   {txt: "Number of transmitted bytes", lbls: []string{"dimension", "target"}},
+		"traffic_downlink_bytes_total": {txt: "Number of receieved bytes", lbls: []string{"dimension", "target"}},
 	} {
 		e.metricDescriptions[k] = e.newMetricDescr(k, desc.txt, desc.lbls)
 	}
@@ -113,7 +113,7 @@ func (e *Exporter) scrapeV2RayMetrics(ctx context.Context, ch chan<- prometheus.
 	for _, s := range resp.GetStat() {
 		// example value: inbound>>>socks-proxy>>>traffic>>>uplink
 		p := strings.Split(s.GetName(), ">>>")
-		metric := p[2] + "_" + p[3]
+		metric := p[2] + "_" + p[3] + "_bytes_total"
 		dimension := p[0]
 		target := p[1]
 
@@ -129,16 +129,26 @@ func (e *Exporter) scrapeV2RaySysMetrics(ctx context.Context, ch chan<- promethe
 		return fmt.Errorf("failed to get sys stats: %w", err)
 	}
 
-	e.registerConstMetricGauge(ch, "uptime", float64(resp.GetUptime()))
-	e.registerConstMetricGauge(ch, "num_goroutine", float64(resp.GetNumGoroutine()))
-	e.registerConstMetricGauge(ch, "alloc", float64(resp.GetAlloc()))
-	e.registerConstMetricGauge(ch, "total_alloc", float64(resp.GetTotalAlloc()))
-	e.registerConstMetricGauge(ch, "sys", float64(resp.GetSys()))
-	e.registerConstMetricGauge(ch, "mallocs", float64(resp.GetMallocs()))
-	e.registerConstMetricGauge(ch, "frees", float64(resp.GetFrees()))
-	e.registerConstMetricGauge(ch, "live_objects", float64(resp.GetLiveObjects()))
-	e.registerConstMetricGauge(ch, "num_gc", float64(resp.GetNumGC()))
-	e.registerConstMetricGauge(ch, "pause_total_ns", float64(resp.GetPauseTotalNs()))
+	e.registerConstMetricGauge(ch, "uptime_seconds", float64(resp.GetUptime()))
+
+	// We followed the naming style of Go collector from Prometheus.
+	// See: https://github.com/prometheus/client_golang/blob/master/prometheus/go_collector.go
+	e.registerConstMetricGauge(ch, "goroutines", float64(resp.GetNumGoroutine()))
+	e.registerConstMetricGauge(ch, "memstats_alloc_bytes", float64(resp.GetAlloc()))
+	e.registerConstMetricGauge(ch, "memstats_alloc_bytes_total", float64(resp.GetTotalAlloc()))
+	e.registerConstMetricGauge(ch, "memstats_sys_bytes", float64(resp.GetSys()))
+	e.registerConstMetricGauge(ch, "memstats_mallocs_total", float64(resp.GetMallocs()))
+	e.registerConstMetricGauge(ch, "memstats_frees_total", float64(resp.GetFrees()))
+
+	// The metric live_objects was removed. You may calculate it in Prometheus using:
+	// memstats_live_objects_total = memstats_mallocs_total - memstats_frees_total
+	// See: https://prometheus.io/docs/instrumenting/writing_exporters/#drop-less-useful-statistics
+
+	// These metrics below are not directly exposed by Go collector.
+	// Therefore we only add the "memstats_" prefix without changing their original names.
+	e.registerConstMetricGauge(ch, "memstats_num_gc", float64(resp.GetNumGC()))
+	e.registerConstMetricGauge(ch, "memstats_pause_total_ns", float64(resp.GetPauseTotalNs()))
+
 	return nil
 }
 
