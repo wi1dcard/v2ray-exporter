@@ -36,8 +36,9 @@ func main() {
 		os.Exit(0)
 	}
 
+	fmt.Printf("V2Ray Exporter %v-%v (built %v)\n", buildVersion, buildCommit, buildDate)
+
 	if opts.Version {
-		fmt.Printf("V2Ray Exporter %v (commit %v, built %v)\n", buildVersion, buildCommit, buildDate)
 		os.Exit(0)
 	}
 

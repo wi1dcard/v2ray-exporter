@@ -2,7 +2,7 @@ LAST_TAG      = $(shell git describe --tags --abbrev=0 HEAD^)
 COMMIT        = $(shell git rev-parse --short HEAD)
 FULL_COMMIT   = $(shell git rev-parse HEAD)
 RELEASE_NOTES = `git log ${LAST_TAG}..HEAD --oneline --decorate`
-DATE          = $(shell date +%Y-%m-%d)
+DATE          = $(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
 DOCKER_REPO   = wi1dcard/v2ray-exporter
 
 export DOCKER_CLI_EXPERIMENTAL=enabled
