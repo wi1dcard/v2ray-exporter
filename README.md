@@ -1,6 +1,7 @@
 # V2Ray Exporter
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/wi1dcard/v2ray-exporter)][goreportcard]
+[![Build Status](https://travis-ci.com/wi1dcard/v2ray-exporter.svg?branch=master)][build-status]
 
 A Exporter that collect V2Ray metrics over its [Stats API][stats-api] and export them to Prometheus.
 
@@ -9,6 +10,7 @@ A Exporter that collect V2Ray metrics over its [Stats API][stats-api] and export
 [stats-api]: https://www.v2ray.com/chapter_02/stats.html
 [goreportcard]: https://goreportcard.com/report/github.com/wi1dcard/v2ray-exporter
 [grafana-screenshot]: https://i.loli.net/2020/01/09/uXrgSG4VaiJqCIE.png
+[build-status]: https://travis-ci.com/wi1dcard/v2ray-exporter
 
 ## Installation
 
@@ -193,6 +195,10 @@ For users who do not really care about internal changes but only need a mapping 
 | ...                                       | ...                                                                         |
 
 - The value of `live_objects` can be calculated by using `memstats_mallocs_total - memstats_frees_total`.
+
+## TODOs
+
+- GitHub Action
 
 ## Special Thanks
 
