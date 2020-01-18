@@ -58,7 +58,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1579345561164,
+  "iteration": 1579383781293,
   "links": [],
   "panels": [
     {
@@ -160,8 +160,8 @@
       "pageSize": null,
       "showHeader": true,
       "sort": {
-        "col": 0,
-        "desc": true
+        "col": 2,
+        "desc": false
       },
       "styles": [
         {
@@ -277,14 +277,15 @@
           "refId": "A"
         },
         {
-          "expr": "sum(increase(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=~\"$instance\"}[$__range]))",
+          "expr": "sum by (instance) (increase(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=~\"$instance\"}[$__range]))",
           "format": "table",
+          "hide": false,
           "instant": true,
           "legendFormat": "",
           "refId": "B"
         },
         {
-          "expr": "sum(increase(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=~\"$instance\"}[$__range]))",
+          "expr": "sum by (instance) (increase(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=~\"$instance\"}[$__range]))",
           "format": "table",
           "instant": true,
           "refId": "C"
@@ -1113,5 +1114,5 @@
   "timezone": "",
   "title": "V2Ray Dashboard",
   "uid": "CCSvIIEZz",
-  "version": 27
+  "version": 29
 }
