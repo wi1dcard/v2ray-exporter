@@ -1,16 +1,24 @@
+dist: bionic
 language: go
 
 go:
   - "1.13"
 services:
   - docker
+addons:
+  apt:
+    packages:
+      - docker-ce
+
 env:
   global:
     - TAG=$TRAVIS_BRANCH
+    - CGO_ENABLED=0
 
 if: branch = master OR tag IS present
 
 before_script:
+  - docker --version
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - make before_build
 
