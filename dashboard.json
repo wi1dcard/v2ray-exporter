@@ -14,7 +14,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "6.5.0"
+      "version": "6.5.2"
     },
     {
       "type": "panel",
@@ -58,7 +58,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1578585365139,
+  "iteration": 1579345561164,
   "links": [],
   "panels": [
     {
@@ -125,7 +125,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(v2ray_up{job=~\"$job\",instance=~\"$instance\"})",
+          "expr": "count(v2ray_up{job=~\"$job\",instance=~\"$instance\"} == 1)",
           "instant": false,
           "refId": "A"
         }
@@ -457,12 +457,12 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "count(v2ray_up{job=~\"$job\",instance=~\"$instance\"} == 0)",
+          "expr": "count(v2ray_up{job=~\"$job\",instance=~\"$instance\"}) - count(v2ray_up{job=~\"$job\",instance=~\"$instance\"} == 1)",
           "instant": false,
           "refId": "A"
         }
       ],
-      "thresholds": "0,0",
+      "thresholds": "0,1",
       "timeFrom": null,
       "timeShift": null,
       "title": "V2Ray Offline",
@@ -1113,5 +1113,5 @@
   "timezone": "",
   "title": "V2Ray Dashboard",
   "uid": "CCSvIIEZz",
-  "version": 26
+  "version": 27
 }
