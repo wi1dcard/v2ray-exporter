@@ -11,7 +11,7 @@ import (
 )
 
 var opts struct {
-	Listen        string `short:"l" long:"listen" description:"Listen address" value-name:"[HOST]:PORT" default:":9550"`
+	Listen        string `short:"l" long:"listen" description:"Listen address" value-name:"[ADDR]:PORT" default:":9550"`
 	MetricsPath   string `short:"m" long:"metrics-path" description:"Metrics path" value-name:"PATH" default:"/scrape"`
 	V2RayEndpoint string `short:"e" long:"v2ray-endpoint" description:"V2Ray API endpoint" value-name:"HOST:PORT" default:"127.0.0.1:8080"`
 	Version       bool   `long:"version" description:"Show version"`
