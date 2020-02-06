@@ -17,15 +17,17 @@ import (
 type Exporter struct {
 	sync.Mutex
 	endpoint           string
+	scrapeTimeout      time.Duration
 	registry           *prometheus.Registry
 	totalScrapes       prometheus.Counter
 	metricDescriptions map[string]*prometheus.Desc
 }
 
-func NewExporter(endpoint string) *Exporter {
+func NewExporter(endpoint string, scrapeTimeout time.Duration) *Exporter {
 	e := Exporter{
-		endpoint: endpoint,
-		registry: prometheus.NewRegistry(),
+		endpoint:      endpoint,
+		scrapeTimeout: scrapeTimeout,
+		registry:      prometheus.NewRegistry(),
 
 		totalScrapes: prometheus.NewCounter(prometheus.CounterOpts{
 			Namespace: "v2ray",
@@ -82,12 +84,12 @@ func (e *Exporter) Describe(ch chan<- *prometheus.Desc) {
 }
 
 func (e *Exporter) scrapeV2Ray(ch chan<- prometheus.Metric) error {
-	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), e.scrapeTimeout)
 	defer cancel()
 
 	conn, err := grpc.DialContext(ctx, e.endpoint, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
-		return fmt.Errorf("failed to dial: %w", err)
+		return fmt.Errorf("failed to dial: %w, timeout: %v", err, e.scrapeTimeout)
 	}
 	defer conn.Close()
 

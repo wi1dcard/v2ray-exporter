@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"time"
 
 	flags "github.com/jessevdk/go-flags"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -11,10 +12,11 @@ import (
 )
 
 var opts struct {
-	Listen        string `short:"l" long:"listen" description:"Listen address" value-name:"[ADDR]:PORT" default:":9550"`
-	MetricsPath   string `short:"m" long:"metrics-path" description:"Metrics path" value-name:"PATH" default:"/scrape"`
-	V2RayEndpoint string `short:"e" long:"v2ray-endpoint" description:"V2Ray API endpoint" value-name:"HOST:PORT" default:"127.0.0.1:8080"`
-	Version       bool   `long:"version" description:"Show version"`
+	Listen                 string `short:"l" long:"listen" description:"Listen address" value-name:"[ADDR]:PORT" default:":9550"`
+	MetricsPath            string `short:"m" long:"metrics-path" description:"Metrics path" value-name:"PATH" default:"/scrape"`
+	V2RayEndpoint          string `short:"e" long:"v2ray-endpoint" description:"V2Ray API endpoint" value-name:"HOST:PORT" default:"127.0.0.1:8080"`
+	ScrapeTimeoutInSeconds int64  `short:"t" long:"scrape-timeout" description:"The timeout in seconds for every individual scrape" value-name:"N" default:"3"`
+	Version                bool   `long:"version" description:"Show version"`
 }
 
 var (
@@ -42,7 +44,8 @@ func main() {
 		os.Exit(0)
 	}
 
-	exporter = NewExporter(opts.V2RayEndpoint)
+	scrapeTimeout := time.Duration(opts.ScrapeTimeoutInSeconds) * time.Second
+	exporter = NewExporter(opts.V2RayEndpoint, scrapeTimeout)
 
 	http.Handle("/metrics", promhttp.Handler())
 	http.HandleFunc("/scrape", scrapeHandler)
