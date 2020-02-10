@@ -14,7 +14,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "6.5.2"
+      "version": "6.6.0"
     },
     {
       "type": "panel",
@@ -58,7 +58,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1579383781293,
+  "iteration": 1581301428533,
   "links": [],
   "panels": [
     {
@@ -166,6 +166,7 @@
       "styles": [
         {
           "alias": "Time",
+          "align": "auto",
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "link": false,
           "pattern": "Time",
@@ -173,6 +174,7 @@
         },
         {
           "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -189,6 +191,7 @@
         },
         {
           "alias": "Instance",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -205,6 +208,7 @@
         },
         {
           "alias": "Job",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -221,6 +225,7 @@
         },
         {
           "alias": "Uptime",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -237,6 +242,7 @@
         },
         {
           "alias": "Downlink",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -253,6 +259,7 @@
         },
         {
           "alias": "Uplink",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -514,12 +521,14 @@
       "styles": [
         {
           "alias": "Time",
+          "align": "auto",
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "pattern": "Time",
           "type": "hidden"
         },
         {
           "alias": "Dimension",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -535,6 +544,7 @@
         },
         {
           "alias": "Instance",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -551,6 +561,7 @@
         },
         {
           "alias": "Job",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -567,6 +578,7 @@
         },
         {
           "alias": "Target",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -583,6 +595,7 @@
         },
         {
           "alias": "Downlink",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -599,6 +612,7 @@
         },
         {
           "alias": "Uplink",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -614,7 +628,8 @@
           "unit": "decbytes"
         },
         {
-          "alias": "⬇️Speed",
+          "alias": "Download Speed",
+          "align": "auto",
           "colorMode": "value",
           "colors": [
             "#37872D",
@@ -633,7 +648,8 @@
           "unit": "Bps"
         },
         {
-          "alias": "⬆️Speed",
+          "alias": "Upload Speed",
+          "align": "auto",
           "colorMode": "value",
           "colors": [
             "#37872D",
@@ -723,7 +739,7 @@
       "renderer": "flot",
       "seriesOverrides": [],
       "spaceLength": 10,
-      "stack": true,
+      "stack": false,
       "steppedLine": false,
       "targets": [
         {
@@ -736,7 +752,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "⬇️Speed of Inbounds",
+      "title": "Download Speed of Inbounds",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -812,7 +828,7 @@
       "renderer": "flot",
       "seriesOverrides": [],
       "spaceLength": 10,
-      "stack": true,
+      "stack": false,
       "steppedLine": false,
       "targets": [
         {
@@ -825,7 +841,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "⬆️Speed of Inbounds",
+      "title": "Upload Speed of Inbounds",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -901,7 +917,7 @@
       "renderer": "flot",
       "seriesOverrides": [],
       "spaceLength": 10,
-      "stack": true,
+      "stack": false,
       "steppedLine": false,
       "targets": [
         {
@@ -914,7 +930,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "⬇️Speed of Users",
+      "title": "Download Speed of Users",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -990,7 +1006,7 @@
       "renderer": "flot",
       "seriesOverrides": [],
       "spaceLength": 10,
-      "stack": true,
+      "stack": false,
       "steppedLine": false,
       "targets": [
         {
@@ -1003,7 +1019,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "⬆️Speed of Users",
+      "title": "Upload Speed of Users",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1042,7 +1058,7 @@
     }
   ],
   "refresh": false,
-  "schemaVersion": 21,
+  "schemaVersion": 22,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -1114,5 +1130,5 @@
   "timezone": "",
   "title": "V2Ray Dashboard",
   "uid": "CCSvIIEZz",
-  "version": 29
+  "version": 30
 }
