@@ -5,11 +5,11 @@
 
 A Exporter that collect V2Ray metrics over its [Stats API][stats-api] and export them to Prometheus.
 
-![grafana.png][grafana-screenshot]
+![The Grafana Dashboard - Looks a tremendous amount of data was being uploaded!][grafana-screenshot]
 
 [stats-api]: https://www.v2ray.com/chapter_02/stats.html
 [goreportcard]: https://goreportcard.com/report/github.com/wi1dcard/v2ray-exporter
-[grafana-screenshot]: https://i.loli.net/2020/01/09/uXrgSG4VaiJqCIE.png
+[grafana-screenshot]: https://i.loli.net/2020/02/13/NzG86QOmXWaS3VB.png
 [build-status]: https://travis-ci.com/wi1dcard/v2ray-exporter
 
 ## Installation
