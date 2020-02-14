@@ -58,7 +58,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1581301428533,
+  "iteration": 1581650461201,
   "links": [],
   "panels": [
     {
@@ -81,7 +81,7 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 3,
+        "w": 2,
         "x": 0,
         "y": 0
       },
@@ -152,7 +152,7 @@
       "gridPos": {
         "h": 6,
         "w": 10,
-        "x": 3,
+        "x": 2,
         "y": 0
       },
       "id": 17,
@@ -314,8 +314,8 @@
       "fillGradient": 0,
       "gridPos": {
         "h": 6,
-        "w": 11,
-        "x": 13,
+        "w": 12,
+        "x": 12,
         "y": 0
       },
       "hiddenSeries": false,
@@ -421,7 +421,7 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 3,
+        "w": 2,
         "x": 0,
         "y": 3
       },
@@ -506,7 +506,7 @@
       "fontSize": "90%",
       "gridPos": {
         "h": 6,
-        "w": 24,
+        "w": 12,
         "x": 0,
         "y": 7
       },
@@ -556,7 +556,7 @@
           "mappingType": 1,
           "pattern": "instance",
           "thresholds": [],
-          "type": "string",
+          "type": "hidden",
           "unit": "short"
         },
         {
@@ -573,7 +573,7 @@
           "mappingType": 1,
           "pattern": "job",
           "thresholds": [],
-          "type": "string",
+          "type": "hidden",
           "unit": "short"
         },
         {
@@ -626,72 +626,20 @@
           "thresholds": [],
           "type": "number",
           "unit": "decbytes"
-        },
-        {
-          "alias": "Download Speed",
-          "align": "auto",
-          "colorMode": "value",
-          "colors": [
-            "#37872D",
-            "rgba(237, 129, 40, 0.89)",
-            "#C4162A"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "Value #C",
-          "thresholds": [
-            "1000000",
-            "5000000"
-          ],
-          "type": "number",
-          "unit": "Bps"
-        },
-        {
-          "alias": "Upload Speed",
-          "align": "auto",
-          "colorMode": "value",
-          "colors": [
-            "#37872D",
-            "rgba(237, 129, 40, 0.89)",
-            "#C4162A"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "Value #D",
-          "thresholds": [
-            "1000000",
-            "5000000"
-          ],
-          "type": "number",
-          "unit": "Bps"
         }
       ],
       "targets": [
         {
-          "expr": "increase(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=~\"$instance\"}[$__range])",
+          "expr": "increase(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=\"$instance\"}[$__range])",
           "format": "table",
           "instant": true,
           "refId": "A"
         },
         {
-          "expr": "increase(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=~\"$instance\"}[$__range])",
+          "expr": "increase(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=\"$instance\"}[$__range])",
           "format": "table",
           "instant": true,
           "refId": "B"
-        },
-        {
-          "expr": "irate(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=~\"$instance\"}[$__range])",
-          "format": "table",
-          "instant": true,
-          "refId": "C"
-        },
-        {
-          "expr": "irate(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=~\"$instance\"}[$__range])",
-          "format": "table",
-          "instant": true,
-          "refId": "D"
         }
       ],
       "timeFrom": null,
@@ -711,6 +659,103 @@
       "gridPos": {
         "h": 6,
         "w": 12,
+        "x": 12,
+        "y": 7
+      },
+      "hiddenSeries": false,
+      "id": 31,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "Uplink",
+          "transform": "negative-Y"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(irate(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=\"$instance\"}[5m]))",
+          "legendFormat": "Downlink",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(irate(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=\"$instance\"}[5m]))",
+          "legendFormat": "Uplink",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Total Bandwidth",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "Bps",
+          "label": "Uplink (-) / Downlink (+)",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${DS_PROMETHEUS}",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
         "x": 0,
         "y": 13
       },
@@ -718,14 +763,14 @@
       "id": 11,
       "legend": {
         "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
+        "avg": true,
+        "current": true,
+        "max": true,
         "min": false,
         "rightSide": true,
         "show": true,
         "total": false,
-        "values": false
+        "values": true
       },
       "lines": true,
       "linewidth": 1,
@@ -743,7 +788,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=~\"$instance\",dimension=\"inbound\"}[5m])",
+          "expr": "irate(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=\"$instance\",dimension=\"inbound\"}[5m])",
           "legendFormat": "{{target}}",
           "refId": "A"
         }
@@ -804,17 +849,17 @@
         "y": 13
       },
       "hiddenSeries": false,
-      "id": 12,
+      "id": 13,
       "legend": {
         "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
+        "avg": true,
+        "current": true,
+        "max": true,
         "min": false,
         "rightSide": true,
         "show": true,
         "total": false,
-        "values": false
+        "values": true
       },
       "lines": true,
       "linewidth": 1,
@@ -832,7 +877,99 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=~\"$instance\",dimension=\"inbound\"}[5m])",
+          "expr": "irate(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=\"$instance\",dimension=\"user\"}[5m])",
+          "legendFormat": "{{target}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Download Speed of Users",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "Bps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${DS_PROMETHEUS}",
+      "decimals": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 19
+      },
+      "hiddenSeries": false,
+      "id": 12,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideEmpty": false,
+        "hideZero": false,
+        "max": true,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "irate(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=\"$instance\",dimension=\"inbound\"}[5m])",
           "legendFormat": "{{target}}",
           "refId": "A"
         }
@@ -889,95 +1026,6 @@
       "gridPos": {
         "h": 6,
         "w": 12,
-        "x": 0,
-        "y": 19
-      },
-      "hiddenSeries": false,
-      "id": 13,
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "irate(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=~\"$instance\",dimension=\"user\"}[5m])",
-          "legendFormat": "{{target}}",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Download Speed of Users",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "Bps",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": false
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 6,
-        "w": 12,
         "x": 12,
         "y": 19
       },
@@ -985,14 +1033,14 @@
       "id": 14,
       "legend": {
         "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
+        "avg": true,
+        "current": true,
+        "max": true,
         "min": false,
         "rightSide": true,
         "show": true,
         "total": false,
-        "values": false
+        "values": true
       },
       "lines": true,
       "linewidth": 1,
@@ -1010,7 +1058,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=~\"$instance\",dimension=\"user\"}[5m])",
+          "expr": "irate(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=\"$instance\",dimension=\"user\"}[5m])",
           "legendFormat": "{{target}}",
           "refId": "A"
         }
@@ -1130,5 +1178,5 @@
   "timezone": "",
   "title": "V2Ray Dashboard",
   "uid": "CCSvIIEZz",
-  "version": 30
+  "version": 31
 }
