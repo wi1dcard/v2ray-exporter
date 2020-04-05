@@ -14,7 +14,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "6.6.0"
+      "version": "6.7.1"
     },
     {
       "type": "panel",
@@ -58,7 +58,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1581650461201,
+  "iteration": 1586063942514,
   "links": [],
   "panels": [
     {
@@ -102,7 +102,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -156,7 +155,6 @@
         "y": 0
       },
       "id": 17,
-      "options": {},
       "pageSize": null,
       "showHeader": true,
       "sort": {
@@ -284,17 +282,20 @@
           "refId": "A"
         },
         {
-          "expr": "sum by (instance) (increase(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=~\"$instance\"}[$__range]))",
+          "expr": "sum by (instance) (increase(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=~\"$instance\",dimension=\"inbound\"}[$__range]))",
           "format": "table",
           "hide": false,
           "instant": true,
+          "interval": "",
           "legendFormat": "",
           "refId": "B"
         },
         {
-          "expr": "sum by (instance) (increase(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=~\"$instance\"}[$__range]))",
+          "expr": "sum by (instance) (increase(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=~\"$instance\",dimension=\"inbound\"}[$__range]))",
           "format": "table",
           "instant": true,
+          "interval": "",
+          "legendFormat": "",
           "refId": "C"
         }
       ],
@@ -350,12 +351,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=~\"$instance\"}[5m]))",
+          "expr": "sum(irate(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=~\"$instance\",dimension=\"inbound\"}[5m]))",
+          "interval": "",
           "legendFormat": "Downlink",
           "refId": "A"
         },
         {
-          "expr": "sum(irate(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=~\"$instance\"}[5m]))",
+          "expr": "sum(irate(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=~\"$instance\",dimension=\"inbound\"}[5m]))",
+          "interval": "",
           "legendFormat": "Uplink",
           "refId": "B"
         }
@@ -442,7 +445,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -511,7 +513,6 @@
         "y": 7
       },
       "id": 18,
-      "options": {},
       "pageSize": null,
       "showHeader": true,
       "sort": {
@@ -694,12 +695,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=\"$instance\"}[5m]))",
+          "expr": "sum(irate(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=\"$instance\",dimension=\"inbound\"}[5m]))",
+          "interval": "",
           "legendFormat": "Downlink",
           "refId": "A"
         },
         {
-          "expr": "sum(irate(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=\"$instance\"}[5m]))",
+          "expr": "sum(irate(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=\"$instance\",dimension=\"inbound\"}[5m]))",
+          "interval": "",
           "legendFormat": "Uplink",
           "refId": "B"
         }
@@ -1118,6 +1121,7 @@
         "definition": "query_result(count_over_time(v2ray_up[$__range]))",
         "hide": 0,
         "includeAll": true,
+        "index": -1,
         "label": "Job",
         "multi": true,
         "name": "job",
@@ -1140,6 +1144,7 @@
         "definition": "query_result(count_over_time(v2ray_up{job=\"$job\"}[$__range]))",
         "hide": 0,
         "includeAll": true,
+        "index": -1,
         "label": "Instance",
         "multi": true,
         "name": "instance",
@@ -1158,7 +1163,7 @@
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-30d",
     "to": "now"
   },
   "timepicker": {
@@ -1178,5 +1183,8 @@
   "timezone": "",
   "title": "V2Ray Dashboard",
   "uid": "CCSvIIEZz",
-  "version": 31
+  "variables": {
+    "list": []
+  },
+  "version": 32
 }
