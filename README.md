@@ -3,7 +3,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/wi1dcard/v2ray-exporter)][goreportcard]
 [![Build Status](https://travis-ci.com/wi1dcard/v2ray-exporter.svg?branch=master)][build-status]
 
-A Exporter that collect V2Ray metrics over its [Stats API][stats-api] and export them to Prometheus.
+An exporter that collect V2Ray metrics over its [Stats API][stats-api] and export them to Prometheus.
 
 ![The Grafana Dashboard - Looks a tremendous amount of data was being uploaded!][grafana-screenshot]
 
@@ -30,11 +30,11 @@ docker run --rm -it wi1dcard/v2ray-exporter:<TAG>
 
 Please note that `latest` tag is not available. Use `master` instead if you want the latest build of master branch.
 
-## Usage
+## Tutorial
 
 Before we start, let's assume you have already set up Prometheus and Grafana.
 
-Firstly, you will need to make sure the API and statistics related features has been enabled in your V2Ray config file. For example:
+Firstly, you will need to make sure the API and statistics related features have been enabled in your V2Ray config file. For example:
 
 ```json
 {
@@ -109,32 +109,30 @@ Firstly, you will need to make sure the API and statistics related features has 
 }
 ```
 
-You can see we open two inbounds in the configuration above. The first inbound accepts VMess connections from user `foo@example.com` and `bar@example.com`, and the second one listens port 54321 on localhost and handles the API calls, which is the endpoint of the exporter scrapes. If you'd like to run V2Ray and exporter in different machine, consider use `0.0.0.0` instead of `127.0.0.1` and be careful with security risks.
+As you can see, we opened two inbounds in the configuration above. The first inbound accepts VMess connections from user `foo@example.com` and `bar@example.com`, and the second one listens port 54321 on localhost and handles the API calls, which is the endpoint that the exporter scrapes. If you'd like to run V2Ray and exporter on different machines, consider use `0.0.0.0` instead of `127.0.0.1` and be careful with the security risks.
 
-Additionally, we should also enable `stats`, `api`, `policy` and setup proper routing rules in order to get traffic statistics works. For more information, please see [The Beginner's Guide of V2Ray][v2ray-beginners-guide].
+Additionally, you should also enable `stats`, `api`, and `policy` settings, and setup proper routing rules in order to get traffic statistics works. For more information, please visit [The Beginner's Guide of V2Ray][v2ray-beginners-guide].
 
 The next step is to start the exporter:
 
 ```bash
 v2ray-exporter --v2ray-endpoint "127.0.0.1:54321"
 ## Or
-docker run --rm -d wi1dcard/v2ray-exporter --v2ray-endpoint "127.0.0.1:54321"
+docker run --rm -d wi1dcard/v2ray-exporter:master --v2ray-endpoint "127.0.0.1:54321"
 ```
 
-The logs should looks like:
+The logs signifies that the exporter started to listening on the default address (`:9550`).
 
+```plain
+V2Ray Exporter master-39eb972 (built 2020-04-05T05:32:01Z)
+time="2020-05-11T06:18:09Z" level=info msg="Server is ready to handle incoming scrape requests."
 ```
-V2Ray Exporter v0.2.0-110e82d (built 2020-01-09T16:07:56Z)
-INFO[0000] Server is ready to handle incoming scrape requests.
-```
 
-Now the exporter is listening on `:9550`, and the option `--listen` allows you changing the listen address or port.
-
-You can now open `http://IP:9550` in your browser:
+Use `--listen` option if you'd like to changing the listen address or port. You can now open `http://IP:9550` in your browser:
 
 ![browser.png][browser-screenshot]
 
-Click the `Scrape V2Ray Metrics`, the exporter will expose all metrics including V2Ray runtime and statistics in the Prometheus metrics format, like:
+Click the `Scrape V2Ray Metrics` and the exporter will expose all metrics including V2Ray runtime and statistics data in the Prometheus metrics format, for example:
 
 ```
 ...
@@ -147,7 +145,7 @@ v2ray_uptime_seconds 150624
 ...
 ```
 
-If you can't find `v2ray_up 1` in the response which means the scrape was failed, please review the logs (stdout/stderr) of V2Ray Exporter for more detailed information.
+If `v2ray_up 1` doesn't exist in the response, that means the scrape was failed, please check out the logs (STDOUT or STDERR) of V2Ray Exporter for more detailed information.
 
 We have the metrics exposed. Now let Prometheus scrapes these data points and visualize them with Grafana. Here is an example Promtheus configuration:
 
@@ -163,15 +161,15 @@ scrape_configs:
       - targets: [IP:9550]
 ```
 
-To learn more about Prometheus, please see the [official docs][prometheus-docs].
+To learn more about Prometheus, please visit the [official docs][prometheus-docs].
 
-A simple Grafana dashboard is also available [here][grafana-dashboard]. Please refer to the [Grafana docs][grafana-importing-dashboard] to get the steps about importing dashboards form JSON files.
+A simple Grafana dashboard is also available [here][grafana-dashboard]. Please refer to the [Grafana docs][grafana-importing-dashboard] to get the steps of importing dashboards from JSON files.
 
 ## Digging Deeper
 
-We did not keep the original metrci names from V2Ray intentionally. You may find out why in the [comments][explaination-of-metric-names].
+The exporter doesn't retain the original metric names from V2Ray intentionally. You may find out why in the [comments][explaination-of-metric-names].
 
-For users who do not really care about internal changes but only need a mapping table, here you got it:
+For users who do not really care about the internal changes, but only need a mapping table, here it is:
 
 | Runtime Metric   | Exposed Metric                     |
 | :--------------- | :--------------------------------- |
@@ -194,7 +192,7 @@ For users who do not really care about internal changes but only need a mapping 
 | `user>>>user-email>>>traffic>>>downlink`  | `v2ray_traffic_downlink_bytes_total{dimension="user",target="user-email"}`  |
 | ...                                       | ...                                                                         |
 
-- The value of `live_objects` can be calculated by using `memstats_mallocs_total - memstats_frees_total`.
+- The value of `live_objects` can be calculated by `memstats_mallocs_total - memstats_frees_total`.
 
 ## TODOs
 
