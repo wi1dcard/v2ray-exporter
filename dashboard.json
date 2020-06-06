@@ -14,7 +14,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "6.7.1"
+      "version": "7.0.3"
     },
     {
       "type": "panel",
@@ -36,8 +36,8 @@
     },
     {
       "type": "panel",
-      "id": "table",
-      "name": "Table",
+      "id": "table-old",
+      "name": "Table (old)",
       "version": ""
     }
   ],
@@ -58,7 +58,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1586063942514,
+  "iteration": 1591456482953,
   "links": [],
   "panels": [
     {
@@ -71,6 +71,12 @@
         "#d44a3a"
       ],
       "datasource": "${DS_PROMETHEUS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -147,6 +153,12 @@
     {
       "columns": [],
       "datasource": "${DS_PROMETHEUS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fontSize": "90%",
       "gridPos": {
         "h": 6,
@@ -303,7 +315,7 @@
       "timeShift": null,
       "title": "Real-Time Overview",
       "transform": "table",
-      "type": "table"
+      "type": "table-old"
     },
     {
       "aliasColors": {},
@@ -311,6 +323,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_PROMETHEUS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -414,6 +432,12 @@
         "#d44a3a"
       ],
       "datasource": "${DS_PROMETHEUS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -505,6 +529,12 @@
     {
       "columns": [],
       "datasource": "${DS_PROMETHEUS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fontSize": "90%",
       "gridPos": {
         "h": 6,
@@ -647,7 +677,7 @@
       "timeShift": null,
       "title": "Real-Time Detail Overview",
       "transform": "table",
-      "type": "table"
+      "type": "table-old"
     },
     {
       "aliasColors": {},
@@ -655,6 +685,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_PROMETHEUS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -754,6 +790,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_PROMETHEUS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -843,6 +885,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_PROMETHEUS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -933,6 +981,12 @@
       "dashes": false,
       "datasource": "${DS_PROMETHEUS}",
       "decimals": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1024,6 +1078,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_PROMETHEUS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1109,7 +1169,7 @@
     }
   ],
   "refresh": false,
-  "schemaVersion": 22,
+  "schemaVersion": 25,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -1121,7 +1181,6 @@
         "definition": "query_result(count_over_time(v2ray_up[$__range]))",
         "hide": 0,
         "includeAll": true,
-        "index": -1,
         "label": "Job",
         "multi": true,
         "name": "job",
@@ -1144,7 +1203,6 @@
         "definition": "query_result(count_over_time(v2ray_up{job=\"$job\"}[$__range]))",
         "hide": 0,
         "includeAll": true,
-        "index": -1,
         "label": "Instance",
         "multi": true,
         "name": "instance",
@@ -1163,7 +1221,7 @@
     ]
   },
   "time": {
-    "from": "now-30d",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {
@@ -1183,8 +1241,5 @@
   "timezone": "",
   "title": "V2Ray Dashboard",
   "uid": "CCSvIIEZz",
-  "variables": {
-    "list": []
-  },
-  "version": 32
+  "version": 1
 }
