@@ -5,14 +5,27 @@
 
 An exporter that collect V2Ray metrics over its [Stats API][stats-api] and export them to Prometheus.
 
-![The Grafana Dashboard - Looks a tremendous amount of data was being uploaded!][grafana-screenshot]
+- [V2Ray Exporter](#v2ray-exporter)
+  - [Quick Start](#quick-start)
+    - [Binaries](#binaries)
+    - [Docker (Recommended)](#docker-recommended)
+    - [Grafana Dashboard](#grafana-dashboard)
+  - [Tutorial](#tutorial)
+  - [Digging Deeper](#digging-deeper)
+  - [TODOs](#todos)
+  - [Special Thanks](#special-thanks)
+  - [License](#license)
+
+![][grafana-screenshot]
 
 [stats-api]: https://www.v2ray.com/chapter_02/stats.html
 [goreportcard]: https://goreportcard.com/report/github.com/wi1dcard/v2ray-exporter
 [grafana-screenshot]: https://i.loli.net/2020/02/13/NzG86QOmXWaS3VB.png
 [build-status]: https://travis-ci.com/wi1dcard/v2ray-exporter
 
-## Installation
+## Quick Start
+
+### Binaries
 
 The latest binaries are made available on GitHub [releases][github-releases] page:
 
@@ -22,6 +35,8 @@ mv /tmp/v2ray-exporter /usr/local/bin/v2ray-exporter
 chmod +x /usr/local/bin/v2ray-exporter
 ```
 
+### Docker (Recommended)
+
 You can also find the docker images built automatically by CI from [Docker Hub](https://hub.docker.com/r/wi1dcard/v2ray-exporter). The images are made for multi-arch. You can run it from your Raspberry Pi or any other ARM, ARM64 devices without changing the image name:
 
 ```bash
@@ -29,6 +44,12 @@ docker run --rm -it wi1dcard/v2ray-exporter:<TAG>
 ```
 
 Please note that `latest` tag is not available. Use `master` instead if you want the latest build of master branch.
+
+### Grafana Dashboard
+
+A simple Grafana dashboard is also available [here][grafana-dashboard]. Please refer to the [Grafana docs][grafana-importing-dashboard] to get the steps of importing dashboards from JSON files.
+
+Note that the dashboard on [grafana.com][grafana-dashboard-grafana-dot-com] may not be the latest version, please consider downloading the dashboard JSON from the link above.
 
 ## Tutorial
 
@@ -163,8 +184,6 @@ scrape_configs:
 
 To learn more about Prometheus, please visit the [official docs][prometheus-docs].
 
-A simple Grafana dashboard is also available [here][grafana-dashboard]. Please refer to the [Grafana docs][grafana-importing-dashboard] to get the steps of importing dashboards from JSON files.
-
 ## Digging Deeper
 
 The exporter doesn't retain the original metric names from V2Ray intentionally. You may find out why in the [comments][explaination-of-metric-names].
@@ -213,5 +232,6 @@ MIT
 [browser-screenshot]: https://i.loli.net/2020/01/11/ZVtNEU8iqMrFGKm.png
 [prometheus-docs]: https://prometheus.io/docs/prometheus/latest/configuration/configuration/
 [grafana-dashboard]: ./dashboard.json
+[grafana-dashboard-grafana-dot-com]: https://grafana.com/grafana/dashboards/11545
 [grafana-importing-dashboard]: https://grafana.com/docs/grafana/latest/reference/export_import/#importing-a-dashboard
 [explaination-of-metric-names]: https://github.com/wi1dcard/v2ray-exporter/blob/110e82dfefb1b51f4da3966ddd1945b5d0dac203/exporter.go#L134
