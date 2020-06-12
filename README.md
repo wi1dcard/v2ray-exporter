@@ -20,7 +20,7 @@ An exporter that collect V2Ray metrics over its [Stats API][stats-api] and expor
 
 [stats-api]: https://www.v2ray.com/chapter_02/stats.html
 [goreportcard]: https://goreportcard.com/report/github.com/wi1dcard/v2ray-exporter
-[grafana-screenshot]: https://i.loli.net/2020/02/13/NzG86QOmXWaS3VB.png
+[grafana-screenshot]: https://i.loli.net/2020/06/12/KzjOnyu93VEIPiW.png
 [build-status]: https://travis-ci.com/wi1dcard/v2ray-exporter
 
 ## Quick Start
