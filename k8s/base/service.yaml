@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: v2ray-exporter
+spec:
+  ports:
+    - name: metrics
+      port: 9550
+      targetPort: metrics
