@@ -1,3 +1,5 @@
+.PHONY: %
+
 LAST_TAG      = $(shell git describe --tags --abbrev=0 HEAD^)
 COMMIT        = $(shell git rev-parse --short HEAD)
 FULL_COMMIT   = $(shell git rev-parse HEAD)
@@ -18,6 +20,9 @@ before_build:
 
 check_tag:
 	test ! -z "${TAG}"
+
+dev:
+	skaffold dev --port-forward --no-prune=false
 
 build: check_tag
 	gox -verbose \

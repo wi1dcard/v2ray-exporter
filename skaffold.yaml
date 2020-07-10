@@ -1,0 +1,14 @@
+apiVersion: skaffold/v2beta5
+kind: Config
+metadata:
+  name: v2ray-exporter
+build:
+  artifacts:
+    - image: wi1dcard/v2ray-exporter
+      docker:
+        buildArgs:
+          ARCH: amd64
+deploy:
+  kustomize:
+    paths:
+      - k8s
