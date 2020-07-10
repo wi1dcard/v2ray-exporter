@@ -58,7 +58,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1591456482953,
+  "iteration": 1594391256464,
   "links": [],
   "panels": [
     {
@@ -283,6 +283,23 @@
           "thresholds": [],
           "type": "number",
           "unit": "decbytes"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
         }
       ],
       "targets": [
@@ -657,19 +674,40 @@
           "thresholds": [],
           "type": "number",
           "unit": "decbytes"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
         }
       ],
       "targets": [
         {
-          "expr": "increase(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=\"$instance\"}[$__range])",
+          "expr": "increase(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=~\"$instance\"}[$__range])",
           "format": "table",
           "instant": true,
+          "interval": "",
+          "legendFormat": "",
           "refId": "A"
         },
         {
-          "expr": "increase(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=\"$instance\"}[$__range])",
+          "expr": "increase(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=~\"$instance\"}[$__range])",
           "format": "table",
           "instant": true,
+          "interval": "",
+          "legendFormat": "",
           "refId": "B"
         }
       ],
@@ -731,13 +769,13 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=\"$instance\",dimension=\"inbound\"}[5m]))",
+          "expr": "sum(irate(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=~\"$instance\",dimension=\"inbound\"}[5m]))",
           "interval": "",
           "legendFormat": "Downlink",
           "refId": "A"
         },
         {
-          "expr": "sum(irate(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=\"$instance\",dimension=\"inbound\"}[5m]))",
+          "expr": "sum(irate(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=~\"$instance\",dimension=\"inbound\"}[5m]))",
           "interval": "",
           "legendFormat": "Uplink",
           "refId": "B"
@@ -833,7 +871,8 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=\"$instance\",dimension=\"inbound\"}[5m])",
+          "expr": "irate(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=~\"$instance\",dimension=\"inbound\"}[5m])",
+          "interval": "",
           "legendFormat": "{{target}}",
           "refId": "A"
         }
@@ -928,7 +967,8 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=\"$instance\",dimension=\"user\"}[5m])",
+          "expr": "irate(v2ray_traffic_downlink_bytes_total{job=~\"$job\",instance=~\"$instance\",dimension=\"user\"}[5m])",
+          "interval": "",
           "legendFormat": "{{target}}",
           "refId": "A"
         }
@@ -1026,7 +1066,8 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=\"$instance\",dimension=\"inbound\"}[5m])",
+          "expr": "irate(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=~\"$instance\",dimension=\"inbound\"}[5m])",
+          "interval": "",
           "legendFormat": "{{target}}",
           "refId": "A"
         }
@@ -1121,7 +1162,8 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=\"$instance\",dimension=\"user\"}[5m])",
+          "expr": "irate(v2ray_traffic_uplink_bytes_total{job=~\"$job\",instance=~\"$instance\",dimension=\"user\"}[5m])",
+          "interval": "",
           "legendFormat": "{{target}}",
           "refId": "A"
         }
@@ -1226,7 +1268,6 @@
   },
   "timepicker": {
     "refresh_intervals": [
-      "5s",
       "10s",
       "30s",
       "1m",
