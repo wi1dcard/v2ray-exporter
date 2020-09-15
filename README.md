@@ -75,7 +75,9 @@ Firstly, you will need to make sure the API and statistics related features have
         },
         "system": {
             "statsInboundUplink": true,
-            "statsInboundDownlink": true
+            "statsInboundDownlink": true,
+            "statsOutboundUplink": true,
+            "statsOutboundDownlink": true
         }
     },
     "inbounds": [
@@ -207,6 +209,8 @@ For users who do not really care about the internal changes, but only need a map
 | :---------------------------------------- | :-------------------------------------------------------------------------- |
 | `inbound>>>tag-name>>>traffic>>>uplink`   | `v2ray_traffic_uplink_bytes_total{dimension="inbound",target="tag-name"}`   |
 | `inbound>>>tag-name>>>traffic>>>downlink` | `v2ray_traffic_downlink_bytes_total{dimension="inbound",target="tag-name"}` |
+| `outbound>>>tag-name>>>traffic>>>uplink`   | `v2ray_traffic_uplink_bytes_total{dimension="outbound",target="tag-name"}`   |
+| `outbound>>>tag-name>>>traffic>>>downlink` | `v2ray_traffic_downlink_bytes_total{dimension="outbound",target="tag-name"}` |
 | `user>>>user-email>>traffic>>>uplink`     | `v2ray_traffic_uplink_bytes_total{dimension="user",target="user-email"}`    |
 | `user>>>user-email>>>traffic>>>downlink`  | `v2ray_traffic_downlink_bytes_total{dimension="user",target="user-email"}`  |
 | ...                                       | ...                                                                         |
