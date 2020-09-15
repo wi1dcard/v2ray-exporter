@@ -1,6 +1,6 @@
 module github.com/wi1dcard/v2ray-exporter
 
-go 1.13
+go 1.15
 
 require (
 	github.com/jessevdk/go-flags v1.4.0
