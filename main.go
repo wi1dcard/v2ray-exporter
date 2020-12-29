@@ -16,7 +16,7 @@ var opts struct {
 	MetricsPath            string `short:"m" long:"metrics-path" description:"Metrics path" value-name:"PATH" default:"/scrape"`
 	V2RayEndpoint          string `short:"e" long:"v2ray-endpoint" description:"V2Ray API endpoint" value-name:"HOST:PORT" default:"127.0.0.1:8080"`
 	ScrapeTimeoutInSeconds int64  `short:"t" long:"scrape-timeout" description:"The timeout in seconds for every individual scrape" value-name:"N" default:"3"`
-	Version                bool   `long:"version" description:"Show version"`
+	Version                bool   `long:"version" description:"Display the version and exit"`
 }
 
 var (
@@ -48,7 +48,7 @@ func main() {
 	exporter = NewExporter(opts.V2RayEndpoint, scrapeTimeout)
 
 	http.Handle("/metrics", promhttp.Handler())
-	http.HandleFunc("/scrape", scrapeHandler)
+	http.HandleFunc(opts.MetricsPath, scrapeHandler)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		_, err := w.Write([]byte(`<html>
 <head><title>V2Ray Exporter</title></head>
