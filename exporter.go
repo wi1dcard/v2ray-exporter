@@ -10,8 +10,8 @@ import (
 	"v2ray.com/core/app/stats/command"
 
 	"github.com/prometheus/client_golang/prometheus"
-	log "github.com/sirupsen/logrus"
-	grpc "google.golang.org/grpc"
+	"github.com/sirupsen/logrus"
+	"google.golang.org/grpc"
 )
 
 type Exporter struct {
@@ -66,7 +66,7 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	var up float64 = 1
 	if err := e.scrapeV2Ray(ch); err != nil {
 		up = 0
-		log.Warnf("Scrape failed! %s", err)
+		logrus.Warnf("Scrape failed: %s", err)
 	}
 
 	e.registerConstMetricGauge(ch, "up", up)
@@ -171,7 +171,7 @@ func (e *Exporter) registerConstMetric(ch chan<- prometheus.Metric, metric strin
 	if m, err := prometheus.NewConstMetric(descr, valType, val, labelValues...); err == nil {
 		ch <- m
 	} else {
-		log.Debugf("NewConstMetric() err: %s", err)
+		logrus.Debugf("NewConstMetric() err: %s", err)
 	}
 }
 

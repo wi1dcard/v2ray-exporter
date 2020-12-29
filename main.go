@@ -8,7 +8,7 @@ import (
 
 	flags "github.com/jessevdk/go-flags"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
 var opts struct {
@@ -60,10 +60,10 @@ func main() {
 </html>
 `))
 		if err != nil {
-			log.Debugf("Write() err: %s", err)
+			logrus.Debugf("Write() err: %s", err)
 		}
 	})
 
-	log.Infof("Server is ready to handle incoming scrape requests.")
-	log.Fatal(http.ListenAndServe(opts.Listen, nil))
+	logrus.Infof("Server is ready to handle incoming scrape requests.")
+	logrus.Fatal(http.ListenAndServe(opts.Listen, nil))
 }
