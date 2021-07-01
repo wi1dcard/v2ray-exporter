@@ -8,6 +8,7 @@ An exporter that collect V2Ray metrics over its [Stats API][stats-api] and expor
 - [V2Ray Exporter](#v2ray-exporter)
   - [Quick Start](#quick-start)
     - [Binaries](#binaries)
+    - [Third-party Packages](#third-party-packages)
     - [Docker (Recommended)](#docker-recommended)
     - [Grafana Dashboard](#grafana-dashboard)
   - [Tutorial](#tutorial)
@@ -34,6 +35,10 @@ wget -O /tmp/v2ray-exporter https://github.com/wi1dcard/v2ray-exporter/releases/
 mv /tmp/v2ray-exporter /usr/local/bin/v2ray-exporter
 chmod +x /usr/local/bin/v2ray-exporter
 ```
+
+### Third-party Packages
+
+- Arch Linux (@unknowndev233): <https://aur.archlinux.org/packages/v2ray-exporter>
 
 ### Docker (Recommended)
 
