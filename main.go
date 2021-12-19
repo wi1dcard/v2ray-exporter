@@ -34,7 +34,8 @@ func scrapeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	if _, err := flags.Parse(&opts); err != nil {
+	var err error
+	if _, err = flags.Parse(&opts); err != nil {
 		os.Exit(0)
 	}
 
@@ -45,7 +46,10 @@ func main() {
 	}
 
 	scrapeTimeout := time.Duration(opts.ScrapeTimeoutInSeconds) * time.Second
-	exporter = NewExporter(opts.V2RayEndpoint, scrapeTimeout)
+	exporter, err = NewExporter(opts.V2RayEndpoint, scrapeTimeout)
+	if err != nil {
+		os.Exit(1)
+	}
 
 	http.Handle("/metrics", promhttp.Handler())
 	http.HandleFunc(opts.MetricsPath, scrapeHandler)
@@ -66,4 +70,6 @@ func main() {
 
 	logrus.Infof("Server is ready to handle incoming scrape requests.")
 	logrus.Fatal(http.ListenAndServe(opts.Listen, nil))
+
+	defer exporter.conn.Close()
 }
