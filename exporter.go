@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"v2ray.com/core/app/stats/command"
+	"github.com/v2fly/v2ray-core/v4/app/stats/command"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/sirupsen/logrus"
