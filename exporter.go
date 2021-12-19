@@ -47,7 +47,7 @@ func NewExporter(endpoint string, scrapeTimeout time.Duration) (*Exporter, error
 		"scrape_duration_seconds":      {txt: "Scrape duration in seconds"},
 		"uptime_seconds":               {txt: "V2Ray uptime in seconds"},
 		"traffic_uplink_bytes_total":   {txt: "Number of transmitted bytes", lbls: []string{"dimension", "target"}},
-		"traffic_downlink_bytes_total": {txt: "Number of receieved bytes", lbls: []string{"dimension", "target"}},
+		"traffic_downlink_bytes_total": {txt: "Number of received bytes", lbls: []string{"dimension", "target"}},
 	} {
 		e.metricDescriptions[k] = e.newMetricDescr(k, desc.txt, desc.lbls)
 	}
@@ -150,7 +150,7 @@ func (e *Exporter) scrapeV2RaySysMetrics(ctx context.Context, ch chan<- promethe
 	// See: https://prometheus.io/docs/instrumenting/writing_exporters/#drop-less-useful-statistics
 
 	// These metrics below are not directly exposed by Go collector.
-	// Therefore we only add the "memstats_" prefix without changing their original names.
+	// Therefore, we only add the "memstats_" prefix without changing their original names.
 	e.registerConstMetricGauge(ch, "memstats_num_gc", float64(resp.GetNumGC()))
 	e.registerConstMetricGauge(ch, "memstats_pause_total_ns", float64(resp.GetPauseTotalNs()))
 
