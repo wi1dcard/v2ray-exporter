@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"v2ray.com/core/app/stats/command"
+	"github.com/v2fly/v2ray-core/v4/app/stats/command"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/sirupsen/logrus"
@@ -21,9 +21,10 @@ type Exporter struct {
 	registry           *prometheus.Registry
 	totalScrapes       prometheus.Counter
 	metricDescriptions map[string]*prometheus.Desc
+	conn               *grpc.ClientConn
 }
 
-func NewExporter(endpoint string, scrapeTimeout time.Duration) *Exporter {
+func NewExporter(endpoint string, scrapeTimeout time.Duration) (*Exporter, error) {
 	e := Exporter{
 		endpoint:      endpoint,
 		scrapeTimeout: scrapeTimeout,
@@ -46,14 +47,25 @@ func NewExporter(endpoint string, scrapeTimeout time.Duration) *Exporter {
 		"scrape_duration_seconds":      {txt: "Scrape duration in seconds"},
 		"uptime_seconds":               {txt: "V2Ray uptime in seconds"},
 		"traffic_uplink_bytes_total":   {txt: "Number of transmitted bytes", lbls: []string{"dimension", "target"}},
-		"traffic_downlink_bytes_total": {txt: "Number of receieved bytes", lbls: []string{"dimension", "target"}},
+		"traffic_downlink_bytes_total": {txt: "Number of received bytes", lbls: []string{"dimension", "target"}},
 	} {
 		e.metricDescriptions[k] = e.newMetricDescr(k, desc.txt, desc.lbls)
 	}
 
 	e.registry.MustRegister(&e)
 
-	return &e
+	ctx, cancel := context.WithTimeout(context.Background(), scrapeTimeout)
+	defer cancel()
+
+	conn, err := grpc.DialContext(ctx, endpoint, grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		logrus.Fatal(fmt.Errorf("failed to dial: %w, timeout: %v", err, e.scrapeTimeout))
+		return nil, err
+	}
+
+	e.conn = conn
+
+	return &e, nil
 }
 
 func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
@@ -84,22 +96,13 @@ func (e *Exporter) Describe(ch chan<- *prometheus.Desc) {
 }
 
 func (e *Exporter) scrapeV2Ray(ch chan<- prometheus.Metric) error {
-	ctx, cancel := context.WithTimeout(context.Background(), e.scrapeTimeout)
-	defer cancel()
+	client := command.NewStatsServiceClient(e.conn)
 
-	conn, err := grpc.DialContext(ctx, e.endpoint, grpc.WithInsecure(), grpc.WithBlock())
-	if err != nil {
-		return fmt.Errorf("failed to dial: %w, timeout: %v", err, e.scrapeTimeout)
-	}
-	defer conn.Close()
-
-	client := command.NewStatsServiceClient(conn)
-
-	if err := e.scrapeV2RaySysMetrics(ctx, ch, client); err != nil {
+	if err := e.scrapeV2RaySysMetrics(context.Background(), ch, client); err != nil {
 		return err
 	}
 
-	if err := e.scrapeV2RayMetrics(ctx, ch, client); err != nil {
+	if err := e.scrapeV2RayMetrics(context.Background(), ch, client); err != nil {
 		return err
 	}
 
@@ -147,7 +150,7 @@ func (e *Exporter) scrapeV2RaySysMetrics(ctx context.Context, ch chan<- promethe
 	// See: https://prometheus.io/docs/instrumenting/writing_exporters/#drop-less-useful-statistics
 
 	// These metrics below are not directly exposed by Go collector.
-	// Therefore we only add the "memstats_" prefix without changing their original names.
+	// Therefore, we only add the "memstats_" prefix without changing their original names.
 	e.registerConstMetricGauge(ch, "memstats_num_gc", float64(resp.GetNumGC()))
 	e.registerConstMetricGauge(ch, "memstats_pause_total_ns", float64(resp.GetPauseTotalNs()))
 
