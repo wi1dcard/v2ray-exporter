@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"google.golang.org/grpc/credentials/insecure"
 	"strings"
 	"sync"
 	"time"
@@ -57,7 +58,7 @@ func NewExporter(endpoint string, scrapeTimeout time.Duration) (*Exporter, error
 	ctx, cancel := context.WithTimeout(context.Background(), scrapeTimeout)
 	defer cancel()
 
-	conn, err := grpc.DialContext(ctx, endpoint, grpc.WithInsecure(), grpc.WithBlock())
+	conn, err := grpc.DialContext(ctx, endpoint, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
 	if err != nil {
 		logrus.Fatal(fmt.Errorf("failed to dial: %w, timeout: %v", err, e.scrapeTimeout))
 		return nil, err
